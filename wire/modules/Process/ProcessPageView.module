@@ -375,7 +375,9 @@ class ProcessPageView extends Process {
 				// note: this section only executed if no URL segments or page numbers were present
 				$s = $page->template->slashUrls;
 				if($page->id > 1 && ((!$hasTrailingSlash && $s !== 0) || ($hasTrailingSlash && $s === 0))) {
-					$this->redirectURL = $page->url;
+                                        $map_qs=function ($k,$v){return "$k=$v";};
+                                        $qs=join(array_map($map_qs,array_keys($_GET),$_GET),"&");
+                                        $this->redirectURL = $page->url.($qs==""?"":"?".$qs);
 				}
 			}
 			return $page; 
